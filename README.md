@@ -1,11 +1,10 @@
-# *yet-another-chart-releaser* Action
+# `yacr` GitHub Action
 
 A GitHub action to turn a GitHub project into a self-hosted Helm chart repo, using [stecky/yet-another-chart-releaser](https://github.com/stecky/yet-another-chart-releaser) CLI tool.
 
 <h1 align="center">
   <a href="https://github.com/stecky/yet-another-chart-releaser"><img src="https://github.com/stecky/yet-another-chart-releaser-action/blob/main/.github/yacr_logo.png" alt="yacr - Chart Releaser"></a>
   <br>
-  Yet Another Helm Chart Releaser
 </h1>
 
 ## Usage
@@ -59,7 +58,7 @@ jobs:
           version: v3.4.0
 
       - name: Run chart-releaser
-        uses: stecky/yet-another-chart-releaser-action@v0.1.3
+        uses: stecky/yet-another-chart-releaser-action@v0.1.5
         env:
           YACR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 ```

@@ -18,7 +18,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-DEFAULT_YACR_VERSION=v0.1.3
+DEFAULT_YACR_VERSION=v0.1.5
 
 show_help() {
 cat << EOF
@@ -63,11 +63,11 @@ main() {
     if [[ -n "${changed_charts[*]}" ]]; then
         install_chart_releaser
 
-        rm -rf .cr-release-packages
-        mkdir -p .cr-release-packages
+        rm -rf .yacr-release-packages
+        mkdir -p .yacr-release-packages
 
-        rm -rf .cr-index
-        mkdir -p .cr-index
+        rm -rf .yacr-index
+        mkdir -p .yacr-index
 
         for chart in "${changed_charts[@]}"; do
             if [[ -d "$chart" ]]; then
@@ -154,8 +154,14 @@ parse_command_line() {
                 fi
                 ;;
             -p|--packages-with-index)
-                packages_with_index=1
-                shift
+                if [[ -n "${2:-}" ]]; then
+                    packages_with_index="$2"
+                    shift
+                else
+                    echo "ERROR: '-p|--packages-with-index' cannot be empty." >&2
+                    show_help
+                    exit 1
+                fi
                 ;;
             *)
                 break
@@ -196,11 +202,11 @@ install_chart_releaser() {
         mkdir -p "$cache_dir"
 
         echo "Installing yacr..."
-        curl -sSLo cr.tar.gz "https://github.com/stecky/yet-another-chart-releaser/releases/download/$version/yet-another-chart-releaser_${version#v}_linux_amd64.tar.gz"
-        tar -xzf cr.tar.gz -C "$cache_dir"
-        rm -f cr.tar.gz
+        curl -sSLo yacr.tar.gz "https://github.com/stecky/yet-another-chart-releaser/releases/download/$version/yet-another-chart-releaser_${version#v}_linux_amd64.tar.gz"
+        tar -xzf yacr.tar.gz -C "$cache_dir"
+        rm -f yacr.tar.gz
 
-        echo 'Adding cr directory to PATH...'
+        echo 'Adding yacr directory to PATH...'
         export PATH="$cache_dir:$PATH"
     fi
 }
@@ -240,13 +246,13 @@ lookup_changed_charts() {
 package_chart() {
     local chart="$1"
 
-    local args=("$chart" --package-path .cr-release-packages)
+    local args=("$chart" --package-path .yacr-release-packages)
     if [[ -n "$config" ]]; then
         args+=(--config "$config")
     fi
 
     echo "Packaging chart '$chart'..."
-    cr package "${args[@]}"
+    yacr package "${args[@]}"
 }
 
 release_charts() {
@@ -256,7 +262,7 @@ release_charts() {
     fi
 
     echo 'Releasing charts...'
-    cr upload "${args[@]}"
+    yacr upload "${args[@]}"
 }
 
 update_index() {
@@ -265,11 +271,12 @@ update_index() {
         args+=(--config "$config")
     fi
 
-    if [[ -v packages_with_index ]]; then
+    if [[ -n "$packages_with_index" && "$packages_with_index" == "true" ]]; then
         args+=(--packages-with-index)
+    fi
 
     echo 'Updating charts repo index...'
-    cr index "${args[@]}"
+    yacr index "${args[@]}"
 }
 
 main "$@"
