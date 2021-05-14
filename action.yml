@@ -31,7 +31,7 @@ runs:
 
         args=(--owner "$owner" --repo "$repo")
         args+=(--charts-dir "${{ inputs.charts_dir }}")
-        args+=(--packages-with-index "${{ inputs.packages_with_index }}"))
+        args+=(--packages-with-index "${{ inputs.packages_with_index }}")
 
         if [[ -n "${{ inputs.version }}" ]]; then
             args+=(--version "${{ inputs.version }}")
