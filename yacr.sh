@@ -256,6 +256,7 @@ package_chart() {
 }
 
 release_charts() {
+    git checkout gh-pages
     local args=(-o "$owner" -r "$repo" -c "$(git rev-parse HEAD)")
     if [[ -n "$config" ]]; then
         args+=(--config "$config")
