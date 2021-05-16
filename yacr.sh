@@ -18,7 +18,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-DEFAULT_YACR_VERSION=v0.2.0
+DEFAULT_YACR_VERSION=v0.3.0
 
 show_help() {
 cat << EOF
@@ -259,6 +259,10 @@ release_charts() {
     local args=(-o "$owner" -r "$repo" -c "$(git rev-parse HEAD)")
     if [[ -n "$config" ]]; then
         args+=(--config "$config")
+    fi
+
+    if [[ -n "$packages_with_index" && "$packages_with_index" == "true" ]]; then
+        args+=(--packages-with-index)
     fi
 
     echo 'Releasing charts...'
