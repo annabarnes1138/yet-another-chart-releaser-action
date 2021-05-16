@@ -18,7 +18,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-DEFAULT_YACR_VERSION=v0.3.0
+DEFAULT_YACR_VERSION=v0.3.1
 
 show_help() {
 cat << EOF
