@@ -20,7 +20,7 @@ A GitHub action to turn a GitHub project into a self-hosted Helm chart repo, usi
 
 For more information on inputs, see the [API Documentation](https://developer.github.com/v3/repos/releases/#input)
 
-- `version`: The chart-releaser version to use (default: v0.3.2)
+- `version`: The chart-releaser version to use (default: v0.3.3)
 - `config`: Optional config file for chart-releaser
 - `charts_dir`: The charts directory
 - `charts_repo_url`: The GitHub Pages URL to the charts repo (default: `https://<owner>.github.io/<project>`)
