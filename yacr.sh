@@ -201,7 +201,7 @@ install_chart_releaser() {
     if [[ ! -d "$cache_dir" ]]; then
         mkdir -p "$cache_dir"
 
-        echo "Installing yacr..."
+        echo "Installing yacr $version..."
         curl -sSLo yacr.tar.gz "https://github.com/stecky/yet-another-chart-releaser/releases/download/$version/yet-another-chart-releaser_${version#v}_linux_amd64.tar.gz"
         tar -xzf yacr.tar.gz -C "$cache_dir"
         rm -f yacr.tar.gz
@@ -262,7 +262,7 @@ release_charts() {
     fi
 
     if [[ -n "$packages_with_index" && "$packages_with_index" == "true" ]]; then
-        args+=(--packages-with-index)
+        args+=(--packages-with-index --push)
     fi
 
     echo 'Releasing charts...'
