@@ -6,7 +6,7 @@ branding:
   icon: anchor
 inputs:
   version:
-    description: "The yacr version to use (default: v0.4.1)"
+    description: "The yacr version to use (default: v0.4.2)"
     required: false
   config:
     description: "The relative path to the yacr config file"
